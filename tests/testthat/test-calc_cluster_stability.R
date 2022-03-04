@@ -1,10 +1,41 @@
 test_that("calc_cluster_stability works", {
-  dir_fcs <- system.file("extdata", package = "flowWorkspaceData")
-  fcs_vec <- list.files(
-      path = dir_fcs,
-      pattern = "^a2004"
+
+  fs <- .get_flowset_test()
+
+  flowsom_orig <- FlowSOM::FlowSOM(
+    input = fs,
+    toTransform = NULL,
+    transform = FALSE,
+    scale = FALSE,
+    colsToUse = c("Am Cyan-H", "Pacific Blue-A", "Pacific Blue-H"),
+    nClus = 3
   )
-  fs <- flowCore::read.flowSet(
-      files = file.path(dir_fcs, fcs_vec)
+
+  out_tbl <- calc_cluster_stability(
+    fs = fs, flowsom_orig = flowsom_orig,
+    scale = FALSE, seed = 2, boot = 2,
+    chnl = c("Am Cyan-H", "Pacific Blue-A", "Pacific Blue-H"),
+    n_cluster = 3
+  )
+
+  expect_identical(
+    ncol(out_tbl),
+    3L
+  )
+  expect_identical(
+    out_tbl$cluster,
+    c(1L, 2L, 3L)
+  )
+  expect_identical(
+    class(out_tbl$stability_mean),
+    "numeric"
+  )
+  expect_identical(
+    class(out_tbl$stability_sample),
+    "list"
+  )
+  expect_identical(
+    class(out_tbl$stability_sample[[1]]),
+    "numeric"
   )
 })
