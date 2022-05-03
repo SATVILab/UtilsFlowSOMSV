@@ -1,4 +1,4 @@
 library(testthat)
-library(flowsomutils)
+library(UtilsFlowSOMSV)
 
-test_check("flowsomutils")
+test_check("UtilsFlowSOMSV")

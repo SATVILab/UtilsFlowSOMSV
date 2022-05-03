@@ -27,22 +27,22 @@ body {
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<h1 id="flowsomutils">flowsomutils</h1>
+<h1 id="utilsflowsomsv">UtilsFlowSOMSV</h1>
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-<p>The goal of flowsomutils is to provide support functions for assessing and working with FlowSOM output</p>
+<p>The goal of UtilsFlowSOMSV is to provide support functions for assessing and working with FlowSOM output</p>
 <h2 id="installation">Installation</h2>
-<p>You can install the development version of flowsomutils from <a href="https://github.com/">GitHub</a> with:</p>
+<p>You can install the development version of UtilsFlowSOMSV from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">requireNamespace</span>(<span class="st">&quot;devtools&quot;</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)) {</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">install.packages</span>(<span class="st">&quot;devtools&quot;</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;SATVILab/flowsomutils&quot;</span>)</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>devtools<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;SATVILab/UtilsFlowSOMSV&quot;</span>)</span></code></pre></div>
 <h2 id="calculate-cluster-stability">Calculate cluster stability</h2>
 <p>Calculate cluster stability for each cluster in a FlowSOM clustering.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># load FlowSet</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fs <span class="ot">&lt;-</span> flowsomutils<span class="sc">:::</span><span class="fu">.get_flowset_test</span>()</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>fs <span class="ot">&lt;-</span> UtilsFlowSOMSV<span class="sc">:::</span><span class="fu">.get_flowset_test</span>()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># apply FlowSOM</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>flowsom_orig <span class="ot">&lt;-</span> FlowSOM<span class="sc">::</span><span class="fu">FlowSOM</span>(</span>
@@ -55,7 +55,7 @@ body {
 <span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co"># get stability for each cluster</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>flowsomutils<span class="sc">::</span><span class="fu">calc_cluster_stability</span>(</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>UtilsFlowSOMSV<span class="sc">::</span><span class="fu">calc_cluster_stability</span>(</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">fs =</span> fs, <span class="at">flowsom_orig =</span> flowsom_orig,</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">scale =</span> <span class="cn">FALSE</span>, <span class="at">seed =</span> <span class="dv">2</span>, <span class="at">boot =</span> <span class="dv">2</span>,</span>
 <span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">chnl =</span> <span class="fu">c</span>(<span class="st">&quot;Am Cyan-H&quot;</span>, <span class="st">&quot;Pacific Blue-A&quot;</span>, <span class="st">&quot;Pacific Blue-H&quot;</span>),</span>
@@ -66,7 +66,7 @@ body {
 <span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &lt;int&gt;          &lt;dbl&gt; &lt;list&gt;          </span></span>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1       1          0.983 &lt;dbl [2]&gt;       </span></span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2       2          0.982 &lt;dbl [2]&gt;       </span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       3          0.682 &lt;dbl [2]&gt;</span></span></code></pre></div>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3       3          0.619 &lt;dbl [2]&gt;</span></span></code></pre></div>
 
 </body>
 </html>

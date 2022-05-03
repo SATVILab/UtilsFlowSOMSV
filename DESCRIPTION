@@ -1,4 +1,4 @@
-Package: flowsomutils
+Package: UtilsFlowSOMSV
 Type: Package
 Title: Utility functions for assessing FlowSOM output
 Version: 0.1.0
@@ -11,12 +11,12 @@ Encoding: UTF-8
 LazyData: true
 Suggests: 
     flowWorkspaceData,
-    cytoutils (>= 0.1.1),
+    UtilsCytoRSV (>= 0.1.1),
     testthat (>= 3.0.0),
     tibble
 Config/testthat/edition: 3
 Remotes: 
-    SATVILab/cytoutils
+    SATVILab/UtilsCytoRSV
 Imports: 
     FlowSOM
 RoxygenNote: 7.1.2
