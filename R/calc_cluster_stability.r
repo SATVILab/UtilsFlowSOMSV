@@ -74,7 +74,7 @@ calc_cluster_stability <- function(fs,
     cluster_lab_vec <- FlowSOM::metaClustering_consensus(
       data = flowsom_boot$map$codes,
       k = n_cluster,
-      seed = 2 * seed
+      seed = if (!is.null(seed)) 2 * seed else NULL
     )
     # cluster for each cell
     cluster_vec_boot <- cluster_lab_vec[flowsom_boot$map$mapping[, 1]]
@@ -101,7 +101,7 @@ calc_cluster_stability <- function(fs,
       numeric(1)
     )
 
-    seed <<- seed + 1
+    if (!is.null(seed)) seed <<- seed + 1
 
     out_tbl <- data.frame(t(as.matrix(results_vec)))
     colnames(out_tbl) <- paste0("cluster_", seq_len(n_cluster))

@@ -7,6 +7,9 @@
   if (!requireNamespace("flowWorkspaceData", quietly = TRUE)) {
     BiocManager::install("flowWorkspaceData")
   }
+  if (!requireNamespace("UtilsCytoRSV", quietly = TRUE)) {
+    stop("UtilsCytoRSV package is required for testing. Install from GitHub: SATVILab/UtilsCytoRSV")
+  }
   path_flow_workspace_data <- system.file(
     "extdata",
     package = "flowWorkspaceData"
@@ -23,7 +26,7 @@
 
   asinh_trans <- flowCore::arcsinhTransform(b = 1 / 5, a = 0)
   trans_list <- flowCore::transformList(
-    setdiff(cytoutils::get_chnl(fs), "Time"),
+    setdiff(UtilsCytoRSV::get_chnl(fs), "Time"),
     asinh_trans
   )
   fs <- flowCore::transform(fs, trans_list)
