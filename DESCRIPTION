@@ -13,10 +13,13 @@ Suggests:
     flowWorkspaceData,
     UtilsCytoRSV (>= 0.1.1),
     testthat (>= 3.0.0),
-    tibble
+    tibble,
+    covr
 Config/testthat/edition: 3
 Remotes: 
     SATVILab/UtilsCytoRSV
 Imports: 
-    FlowSOM
+    FlowSOM,
+    flowCore,
+    purrr
 RoxygenNote: 7.1.2
