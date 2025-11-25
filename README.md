@@ -4,10 +4,17 @@
 # UtilsFlowSOMSV
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/SATVILab/UtilsFlowSOMSV/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/SATVILab/UtilsFlowSOMSV/actions/workflows/R-CMD-check.yaml)
+[![test-coverage](https://codecov.io/gh/SATVILab/UtilsFlowSOMSV/graph/badge.svg)](https://codecov.io/gh/SATVILab/UtilsFlowSOMSV)
 <!-- badges: end -->
 
-The goal of UtilsFlowSOMSV is to provide support functions for assessing
-and working with FlowSOM output
+UtilsFlowSOMSV provides utility functions for assessing and working with [FlowSOM](https://bioconductor.org/packages/release/bioc/html/FlowSOM.html) output. FlowSOM is a popular algorithm for clustering flow cytometry data using self-organizing maps.
+
+The main functionality of this package is to calculate **cluster stability** for each cluster in a FlowSOM clustering, helping researchers assess the robustness and reliability of their clustering results.
+
+## Functions
+
+- `calc_cluster_stability()`: Calculate cluster stability for each cluster using bootstrap resampling and Jaccard similarity coefficients.
 
 ## Installation
 
@@ -21,9 +28,9 @@ if (!requireNamespace("devtools", quietly = TRUE)) {
 devtools::install_github("SATVILab/UtilsFlowSOMSV")
 ```
 
-## Calculate cluster stability
+## Example: Calculate Cluster Stability
 
-Calculate cluster stability for each cluster in a FlowSOM clustering.
+The `calc_cluster_stability()` function computes cluster stability for each cluster in a FlowSOM clustering using bootstrap resampling. The stability is measured using Jaccard similarity coefficients, which range from 0 (no overlap) to 1 (perfect overlap).
 
 ``` r
 # load FlowSet
@@ -53,3 +60,9 @@ UtilsFlowSOMSV::calc_cluster_stability(
 #> 2       2          0.982 <dbl [2]>       
 #> 3       3          0.619 <dbl [2]>
 ```
+
+The output is a tibble with:
+
+- `cluster`: The cluster number
+- `stability_mean`: The mean Jaccard similarity across bootstrap samples (higher values indicate more stable clusters)
+- `stability_sample`: A list column containing individual stability values from each bootstrap iteration
