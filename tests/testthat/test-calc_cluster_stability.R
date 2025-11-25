@@ -101,9 +101,7 @@ test_that("calc_cluster_stability returns valid stability values", {
   expect_true(all(out_tbl$stability_mean <= 1))
 
   # Each stability_sample should have boot number of samples
-  expect_equal(length(out_tbl$stability_sample[[1]]), 3)
-  expect_equal(length(out_tbl$stability_sample[[2]]), 3)
-  expect_equal(length(out_tbl$stability_sample[[3]]), 3)
+  expect_true(all(lengths(out_tbl$stability_sample) == 3))
 })
 
 test_that("calc_cluster_stability works with scale = TRUE", {
