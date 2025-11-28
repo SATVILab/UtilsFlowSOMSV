@@ -45,36 +45,46 @@ The main function in this package is `calc_cluster_stability()`, which computes 
 ```{r example}
 library(UtilsFlowSOMSV)
 library(FlowSOM)
+library(flowCore)
 
-# Load a test flowSet (for demonstration)
-fs <- UtilsFlowSOMSV:::.get_flowset_test()
-
-# Define channels to use for clustering
-channels <- c("Am Cyan-H", "Pacific Blue-A", "Pacific Blue-H")
-
-# Apply FlowSOM clustering
-flowsom_result <- FlowSOM::FlowSOM(
-  input = fs,
-  toTransform = NULL,
-  transform = FALSE,
-  scale = FALSE,
-  colsToUse = channels,
-  nClus = 3
-)
-
-# Calculate cluster stability
-stability_results <- calc_cluster_stability(
-  fs = fs,
-  flowsom_orig = flowsom_result,
-  scale = FALSE,
-  seed = 42,
-  boot = 10,  # Number of bootstrap iterations
-  chnl = channels,
-  n_cluster = 3
-)
-
-# View results
-print(stability_results)
+# For this example, we'll use data from flowWorkspaceData package
+# In practice, you would use your own FCS files
+if (requireNamespace("flowWorkspaceData", quietly = TRUE)) {
+  # Load sample FCS files
+  path_fcs <- system.file("extdata", package = "flowWorkspaceData")
+  fcs_files <- list.files(path_fcs, pattern = "^a2004", full.names = TRUE)
+  fs <- flowCore::read.flowSet(fcs_files)
+  
+  # Transform the data (example using arcsinh transformation)
+  asinh_trans <- flowCore::arcsinhTransform(b = 1/5, a = 0)
+  channels <- c("Am Cyan-H", "Pacific Blue-A", "Pacific Blue-H")
+  trans_list <- flowCore::transformList(channels, asinh_trans)
+  fs <- flowCore::transform(fs, trans_list)
+  
+  # Apply FlowSOM clustering
+  flowsom_result <- FlowSOM::FlowSOM(
+    input = fs,
+    toTransform = NULL,
+    transform = FALSE,
+    scale = FALSE,
+    colsToUse = channels,
+    nClus = 3
+  )
+  
+  # Calculate cluster stability
+  stability_results <- calc_cluster_stability(
+    fs = fs,
+    flowsom_orig = flowsom_result,
+    scale = FALSE,
+    seed = 42,
+    boot = 10,  # Number of bootstrap iterations
+    chnl = channels,
+    n_cluster = 3
+  )
+  
+  # View results
+  print(stability_results)
+}
 ```
 
 ### Understanding the Output
