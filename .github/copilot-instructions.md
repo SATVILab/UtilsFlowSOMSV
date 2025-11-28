@@ -36,6 +36,35 @@ When updating copilot instructions, follow GitHub's best practices:
 * Run `devtools::document()` to update documentation
 * Run `devtools::test()` with LITE mode for faster iteration
 * Run `devtools::check()` to ensure package passes R CMD check
+* Update `_pkgdown.yml` if functions are added, removed, or newly imported/exported (see pkgdown section below)
+
+---
+
+## pkgdown Website Maintenance
+
+When modifying exported functions, **always update `_pkgdown.yml`**:
+
+* **Adding a function**: Add the function name to the appropriate `contents` section under `reference`
+* **Removing a function**: Remove the function name from the `contents` section
+* **Renaming a function**: Update the function name in the `contents` section
+* **Adding a new category**: Add a new `- title:` block with `desc:` and `contents:` fields
+
+### Example: Adding a New Function
+
+```yaml
+reference:
+  - title: Cluster Stability
+    desc: Functions for calculating and assessing cluster stability
+    contents:
+      - calc_cluster_stability
+      - new_function_name  # Add new functions here
+```
+
+### Validation
+
+* Run `pkgdown::check_pkgdown()` to verify `_pkgdown.yml` is valid
+* All exported functions must be listed in `_pkgdown.yml`
+* Internal functions (prefixed with `.`) should NOT be listed
 
 ---
 

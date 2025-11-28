@@ -6,6 +6,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/SATVILab/UtilsFlowSOMSV/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/SATVILab/UtilsFlowSOMSV/actions/workflows/R-CMD-check.yaml)
 [![test-coverage](https://codecov.io/gh/SATVILab/UtilsFlowSOMSV/graph/badge.svg)](https://codecov.io/gh/SATVILab/UtilsFlowSOMSV)
+[![pkgdown](https://github.com/SATVILab/UtilsFlowSOMSV/actions/workflows/pkgdown.yaml/badge.svg)](https://satvilab.github.io/UtilsFlowSOMSV/)
 <!-- badges: end -->
 
 UtilsFlowSOMSV provides utility functions for assessing and working with [FlowSOM](https://bioconductor.org/packages/release/bioc/html/FlowSOM.html) output. FlowSOM is a popular algorithm for clustering flow cytometry data using self-organizing maps.
