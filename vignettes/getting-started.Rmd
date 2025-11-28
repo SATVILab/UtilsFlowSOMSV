@@ -1,0 +1,121 @@
+---
+title: "Getting Started with UtilsFlowSOMSV"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with UtilsFlowSOMSV}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  eval = FALSE
+)
+```
+
+## Introduction
+
+UtilsFlowSOMSV provides utility functions for assessing FlowSOM clustering output. FlowSOM is a popular algorithm for clustering flow cytometry data using self-organizing maps. This package currently focuses on calculating **cluster stability** to help researchers assess the robustness and reliability of their clustering results.
+    
+## Installation
+
+You can install the development version of UtilsFlowSOMSV from GitHub:
+
+```{r install}
+if (!requireNamespace("devtools", quietly = TRUE)) {
+  install.packages("devtools")
+}
+devtools::install_github("SATVILab/UtilsFlowSOMSV")
+```
+
+## Calculating Cluster Stability
+
+The main function in this package is `calc_cluster_stability()`, which computes cluster stability for each cluster in a FlowSOM clustering using bootstrap resampling. The stability is measured using Jaccard similarity coefficients, which range from 0 (no overlap) to 1 (perfect overlap).
+
+### Workflow Overview
+
+1. **Prepare your flowSet**: Ensure your flow cytometry data is appropriately transformed and compensated
+2. **Run FlowSOM**: Apply FlowSOM clustering to your data
+3. **Calculate stability**: Use `calc_cluster_stability()` to assess how robust your clusters are
+
+### Example
+
+```{r example}
+library(UtilsFlowSOMSV)
+library(FlowSOM)
+library(flowCore)
+
+# For this example, we'll use data from flowWorkspaceData package
+# In practice, you would use your own FCS files
+if (requireNamespace("flowWorkspaceData", quietly = TRUE)) {
+  # Load sample FCS files
+  path_fcs <- system.file("extdata", package = "flowWorkspaceData")
+  fcs_files <- list.files(path_fcs, pattern = "^a2004", full.names = TRUE)
+  fs <- flowCore::read.flowSet(fcs_files)
+  
+  # Transform the data (example using arcsinh transformation)
+  asinh_trans <- flowCore::arcsinhTransform(b = 1/5, a = 0)
+  channels <- c("Am Cyan-H", "Pacific Blue-A", "Pacific Blue-H")
+  trans_list <- flowCore::transformList(channels, asinh_trans)
+  fs <- flowCore::transform(fs, trans_list)
+  
+  # Apply FlowSOM clustering
+  flowsom_result <- FlowSOM::FlowSOM(
+    input = fs,
+    toTransform = NULL,
+    transform = FALSE,
+    scale = FALSE,
+    colsToUse = channels,
+    nClus = 3
+  )
+  
+  # Calculate cluster stability
+  stability_results <- calc_cluster_stability(
+    fs = fs,
+    flowsom_orig = flowsom_result,
+    scale = FALSE,
+    seed = 42,
+    boot = 10,  # Number of bootstrap iterations
+    chnl = channels,
+    n_cluster = 3
+  )
+  
+  # View results
+  print(stability_results)
+}
+```
+
+### Understanding the Output
+
+The function returns a tibble with three columns:
+
+- **cluster**: The cluster number (1 to n_cluster)
+- **stability_mean**: The mean Jaccard similarity across bootstrap samples. Higher values (closer to 1) indicate more stable clusters
+- **stability_sample**: A list column containing individual stability values from each bootstrap iteration
+
+### Interpreting Stability Values
+
+| Stability Range | Interpretation |
+|-----------------|----------------|
+| 0.8 - 1.0       | Highly stable cluster |
+| 0.6 - 0.8       | Moderately stable cluster |
+| 0.4 - 0.6       | Somewhat unstable cluster |
+| < 0.4           | Unstable cluster - consider adjusting parameters |
+
+## Best Practices
+
+1. **Use sufficient bootstrap iterations**: More iterations (e.g., 100+) provide more reliable stability estimates but take longer to compute
+
+2. **Compare across different cluster numbers**: Calculate stability for different values of `n_cluster` to find the optimal clustering solution
+
+3. **Check all clusters**: Even if most clusters are stable, unstable clusters may indicate over-clustering in certain regions of your data
+
+4. **Consider biological context**: Some cell populations may naturally have more variability, so moderate stability might still be acceptable
+
+## Session Information
+
+```{r session}
+sessionInfo()
+```

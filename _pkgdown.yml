@@ -1,0 +1,15 @@
+url: https://satvilab.github.io/UtilsFlowSOMSV/
+
+template:
+  bootstrap: 5
+
+navbar:
+  structure:
+    left:  [intro, reference, articles]
+    right: [search, github]
+
+reference:
+  - title: Cluster Stability
+    desc: Functions for calculating and assessing cluster stability
+    contents:
+      - calc_cluster_stability

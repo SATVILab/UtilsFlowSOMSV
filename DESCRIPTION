@@ -9,12 +9,16 @@ Description: At present, simply calculates cluster stability for
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
+URL: https://satvilab.github.io/UtilsFlowSOMSV/, https://github.com/SATVILab/UtilsFlowSOMSV
+BugReports: https://github.com/SATVILab/UtilsFlowSOMSV/issues
 Suggests: 
     flowWorkspaceData,
     UtilsCytoRSV (>= 0.1.1),
     testthat (>= 3.0.0),
     tibble,
-    covr
+    covr,
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
 Remotes: 
     SATVILab/UtilsCytoRSV
@@ -23,3 +27,4 @@ Imports:
     flowCore,
     purrr
 RoxygenNote: 7.1.2
+VignetteBuilder: knitr
